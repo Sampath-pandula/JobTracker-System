@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>Job Tracker</h1>
+                </div>
+                <div class="header-controls">
+                    <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Connecting...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-tab" data-tab="add-job">Add Job</button>
+            <button class="nav-tab" data-tab="settings">Settings</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <main class="tab-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="tab-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalApps">0</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="monthApps">0</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📆</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="weekApps">0</div>
+                            <div class="stat-label">This Week</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="todayApps">0</div>
+                            <div class="stat-label">Today</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-applications">
+                    <h3>Recent Applications</h3>
+                    <div id="recentAppsList" class="recent-list">
+                        <div class="loading">Loading recent applications...</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-actions">
+                    <button id="openDashboard" class="btn btn-primary full-width">
+                        Open Full Dashboard
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Job Tab -->
+            <div id="add-job" class="tab-pane">
+                <form id="addJobForm" class="job-form">
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title *</label>
+                        <input type="text" id="jobTitle" name="jobTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company">Company *</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="e.g., San Francisco, CA">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="portalUsed">Job Portal *</label>
+                        <select id="portalUsed" name="portalUsed" required>
+                            <option value="">Select portal</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Indeed">Indeed</option>
+                            <option value="Glassdoor">Glassdoor</option>
+                            <option value="Dice">Dice</option>
+                            <option value="ZipRecruiter">ZipRecruiter</option>
+                            <option value="Monster">Monster</option>
+                            <option value="Company Website">Company Website</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jobUrl">Job URL</label>
+                        <input type="url" id="jobUrl" name="jobUrl" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="salaryInfo">Salary Information</label>
+                        <input type="text" id="salaryInfo" name="salaryInfo" placeholder="e.g., $80k-$100k">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicationType">Application Type</label>
+                        <select id="applicationType" name="applicationType">
+                            <option value="Manual Entry">Manual Entry</option>
+                            <option value="Easy Apply">Easy Apply</option>
+                            <option value="Long Application">Long Application</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" name="notes" rows="3" placeholder="Additional notes..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary full-width">
+                        <span class="btn-text">Add Application</span>
+                        <span class="btn-loading hidden">Adding...</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-pane">
+                <div class="settings-section">
+                    <h3>Connection Settings</h3>
+                    <div class="form-group">
+                        <label for="supabaseUrl">Supabase URL</label>
+                        <input type="url" id="supabaseUrl" name="supabaseUrl" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="supabaseKey">Supabase Key</label>
+                        <input type="password" id="supabaseKey" name="supabaseKey" readonly>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Auto-Detection Settings</h3>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoDetection" checked>
+                            <span class="checkbox-custom"></span>
+                            Enable automatic job detection
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="notifications" checked>
+                            <span class="checkbox-custom"></span>
+                            Show success notifications
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Account</h3>
+                    <div class="account-info">
+                        <div class="user-email" id="userEmail">Not signed in</div>
+                        <button id="signOut" class="btn btn-secondary">Sign Out</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <button id="exportData" class="btn btn-secondary full-width">
+                        Export My Data
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Notifications -->
+        <div id="notifications" class="notifications"></div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
